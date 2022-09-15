@@ -10374,12 +10374,11 @@ fieldset:disabled .btn {
 }
 
 .bg-gradient-pink-white {
-  background-image:  linear-gradient(0deg, #7CE644, #08D3C0 70%);
- 
+  background-image: linear-gradient(0deg, #0BC2DD, #023C8A 70%);
 }
 
 .bg-gradient-pink {
-  background-image:  linear-gradient(0deg, #7CE644, #08D3C0 70%);
+  background-image: linear-gradient(0deg, #0BC2DD, #023C8A 70%);
 }
 
 .bg-gradient-red {

@@ -11,10 +11,10 @@ class General implements Crud{
   public static function getAllAsistentesGafete($search){
     $mysqli = Database::getInstance();
     $query =<<<sql
-    SELECT ig.*,ua.usuario,ua.nombre,ua.apellidop,ua.apellidom,ua.mostrar FROM impresion_gafete ig
-    INNER JOIN utilerias_administradores ua ON ua.user_id = ig.user_id
-    WHERE ua.mostrar = 1 
-    AND ua.usuario = '$search';
+    SELECT ua.*,tt.id_titulo_trabajo,tt.nombre_titulo FROM asigna_constancia ac
+    INNER JOIN autores ua ON ua.id_autor = ac.id_autor
+    INNER JOIN titulo_trabajo tt ON tt.id_titulo_trabajo = ac.id_titulo_trabajo
+    WHERE CONCAT(ua.nombre," ",ua.apellido_p," ",ua.apellido_m) LIKE '%$search%';
 sql;
 
     return $mysqli->queryAll($query);
@@ -349,66 +349,16 @@ sql;
         return $mysqli->queryOne($query);
     }
     public static function insert($datos){
-	      $mysqli = Database::getInstance(1);
-        $query=<<<sql
-        INSERT INTO catalogo_dia_festivo (catalogo_dia_festivo_id, nombre, descripcion, fecha, status) VALUES (NULL, :nombre, :descripcion, :fecha, '1');
-sql;
-    	$parametros = array(
-    		':nombre'=>$datos->_nombre,
-    		':descripcion'=>$datos->_descripcion,
-    		':fecha'=>$datos->_fecha,
-    	);
-      $id = $mysqli->insert($query,$parametros);
-      $accion = new \stdClass();
-      $accion->_sql= $query;
-      $accion->_parametros = $parametros;
-      $accion->_id = $id;
-      UtileriasLog::addAccion($accion);
-      return $id;
+	      
     }
     public static function update($datos){
-        $mysqli = Database::getInstance(true);
-      $query=<<<sql
-UPDATE catalogo_dia_festivo SET nombre = '122', descripcion = '1233', fecha = '2017-08-24', status = 2 WHERE catalogo_dia_festivo.catalogo_dia_festivo_id = :catalogo_dia_festivo_id;
-sql;
-      $parametros = array(
-          ':catalogo_dia_festivo_id'=>$lectores->_catalogo_dia_festivo_id,
-          ':nombre'=>$lectores->_nombre,
-          ':descripcion'=>$lectores->_descripcion,
-          ':fecha'=>$lectores->_fecha,
-          ':status'=>$lectores->_status
-        );
-        $accion = new \stdClass();
-        $accion->_sql= $query;
-        $accion->_parametros = $parametros;
-        $accion->_id = $lectores->_catalogo_dia_festivo_id;
-        UtileriasLog::addAccion($accion);
-        return $mysqli->update($query, $parametros);
+      
     }
     public static function delete($id){
-	$mysqli = Database::getInstance();
-        $query=<<<sql
-        DELETE FROM `catalogo_dia_festivo` WHERE `catalogo_dia_festivo`.`catalogo_dia_festivo_id` = $id
-sql;
-        $parametros = array(':id'=>$id);
-        $accion = new \stdClass();
-        $accion->_sql= $query;
-        $accion->_parametros = $parametros;
-        $accion->_id = $id;
-        UtileriasLog::addAccion($accion);
-        return $mysqli->update($query, $parametros);
+
     }
     public static function deleteById($id){
-        $mysqli = Database::getInstance();
-        $query=<<<sql
-DELETE FROM catalogo_dia_festivo WHERE catalogo_dia_festivo.catalogo_dia_festivo_id = $id
-sql;
-      $accion = new \stdClass();
-      $accion->_sql= $query;
-      $accion->_parametros = $parametros;
-      $accion->_id = $id;
-      UtileriasLog::addAccion($accion);
-        return $mysqli->queryOne($query);
+      
     }
     public static function getById($id){
         $mysqli = Database::getInstance();

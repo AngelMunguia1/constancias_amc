@@ -63,12 +63,12 @@ html;
     }
     public function Usuario() {
         $search = $_POST['search'];
-        $datos_user = GeneralDao::getAllAsistentesGafete($search)[0];
+        $datos_user = GeneralDao::getAllAsistentesGafete($search);
         if($search){
             if($datos_user<1){
-                echo '<script>alert("ESTE CORREO NO TIENE ACCESO A CONSTANCIA")</script>';
+                echo '<script>alert("ESTE USUARIO NO TIENE ACCESO A CONSTANCIA")</script>';
             }else{
-            $this->abrirConstancia($search);
+                $this->abrirConstancia($search);
             }
         }
         View::render("asistentes_all");
@@ -77,140 +77,50 @@ html;
     public function abrirConstancia($value)
     {
 
-        $datos_user = GeneralDao::getAllAsistentesGafete($value)[0];
+        $datos_user = GeneralDao::getAllAsistentesGafete($value);
         $idd = $datos_user['user_id'];
-
-        // $nombre = explode(" ", $datos_user['nombre']);
-
-        // $nombre_completo = $datos_user['prefijo'] . " " . $nombre[0] . " " . $datos_user['apellidop']. " " . $datos_user['apellidom'];
-        $nombre_completo = $datos_user['nombre']." ".$datos_user['apellidop']." ".$datos_user['apellidom'];
-        $nombre_completo = mb_strtoupper($nombre_completo);
-
-        $nombre = html_entity_decode($datos_user['nombre']);
-        $apellido = html_entity_decode($datos_user['apellidop']);
-        $segundo_apellido = html_entity_decode($datos_user['apellidom']);
-        $nombre_completo = ($datos_user['title'])."".($nombre)." ".($apellido)." ".($segundo_apellido);
-        $nombre_completo = mb_strtoupper($nombre_completo);
 
         // echo $nombre_completo;
         // exit;
-        $buscar_constancia =GeneralDao::getAllConstanciasRegistradas($idd);
-        if($buscar_constancia){
-            $actualiza_constancia =GeneralDao::updateConstanciaStatus($idd);
+        // INSERTAR CONSTANCIAS DESCARGADAS
+        // $buscar_constancia =GeneralDao::getAllConstanciasRegistradas($idd);
+        // if($buscar_constancia){
+        //     $actualiza_constancia =GeneralDao::updateConstanciaStatus($idd);
             
-        }else{
-            $insert_impresion_constancia = GeneralDao::insertImpresionConstancia($datos_user['user_id'],'Digital');
-        }
-        
-        /*
-        ////////////////////////////////
-            AQUI VA LA PRIMERA HOJA
-        ///////////////////////////////
-        */
+        // }else{
+        //     $insert_impresion_constancia = GeneralDao::insertImpresionConstancia($datos_user['user_id'],'Digital');
+        // }
 
         $pdf = new \FPDF($orientation = 'L', $unit = 'mm', $format = 'A4');
+
+        foreach($datos_user as $value){
+        $title = html_entity_decode($value['nombre_titulo']);
+        $nombre = html_entity_decode($value['nombre']);
+        $apellido = html_entity_decode($value['apellido_p']);
+        $segundo_apellido = html_entity_decode($value['apellido_m']);
+        $nombre_completo = ($value['prefijo'])."".($nombre)." ".($apellido)." ".($segundo_apellido);
+        $nombre_completo = mb_strtoupper($nombre_completo);
+        $titulo = mb_strtoupper($title);
+
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
         $pdf->setY(1);
-        $pdf->Image('constancias/plantillas/constancia_congreso_1.jpeg', 0, 0, 296, 210);
+        $pdf->Image('constancias/plantillas/constancia.jpeg', 0, 0, 298, 210);
         $pdf->SetFont('Arial', 'B', 16);
         $pdf->SetFont('Arial', 'B', 5);    //Letra Arial, negrita (Bold), tam. 20
-        $pdf->SetXY(56, 88);
+        $pdf->SetXY(55, 88);
         
         $pdf->SetFont('Arial', 'B', 24);
         #4D9A9B
         $pdf->SetTextColor(0, 0, 0);
-        $pdf->Multicell(273, 30, utf8_decode($nombre_completo), 0, 'C');
+        $pdf->Multicell(190, 30, utf8_decode($nombre_completo), 0, 'C');
 
-        $pdf->SetXY(120, 122);
-        $pdf->SetFont('Arial', '', 15);
-        $pdf->Multicell(150, 7, utf8_decode('Por su participación como                      en el marco del'), 0, 'C');
-        $pdf->SetXY(120, 122);
-        $pdf->SetFont('Arial', 'B', 15);
-        $pdf->Multicell(175, 7, utf8_decode('ASISTENTE'), 0, 'C');
-        $pdf->SetXY(108, 128);
-        $pdf->SetFont('Arial', 'B', 15);
-        $pdf->Multicell(175, 6, utf8_decode('XVII Congreso Nacional de Hepatología 13 al 16 de Julio 2022 Mérida, Yucatán'), 0, 'C');
-
-
-        $pdf->SetXY(123, 147);
-        $pdf->SetFont('Arial', '', 9);
-        $pdf->Multicell(150, 7, utf8_decode('Con reconocimiento del Comité Normativo Nacional de Medicina General A.C. (CONAMEGE).'), 0, 'C');
-        $pdf->SetXY(112, 151);
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->Multicell(170, 7, utf8_decode('con registro 5073/2022; con valor de                  para la recertificación de "Actividades de '), 0, 'C');
-        $pdf->SetXY(106, 151);
-        $pdf->SetFont('Arial', 'B', 9);
-        $pdf->Multicell(175, 7, utf8_decode('26 puntos'), 0, 'C');
-        $pdf->SetXY(124, 155);
-        $pdf->SetFont('Arial', '', 9);
-        $pdf->Multicell(150, 7, utf8_decode('Educación Médica Continua"'), 0, 'C'); 
-
-
-        $pdf->Image('constancias/plantillas/firma_dra.png', 110, 175, 70, 28);
-        $pdf->Image('constancias/plantillas/firma_doc.png', 205, 178, 70, 25);
-
-        /*
-        ////////////////////////////////
-            AQUI VA LA SEGUNDA HOJA
-        ///////////////////////////////
-        */
-        $pdf->AddPage();
-        $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
-        $pdf->setY(1);
-        $pdf->Image('constancias/plantillas/constancia_congreso_1.jpeg', 0, 0, 296, 210);
-        $pdf->SetFont('Arial', 'B', 16);
-        $pdf->SetFont('Arial', 'B', 5);    //Letra Arial, negrita (Bold), tam. 20
-
-        $pdf->SetXY(56, 88);
-        
-        $pdf->SetFont('Arial', 'B', 24);
-        #4D9A9B
-        $pdf->SetTextColor(0, 0, 0);
-        $pdf->Multicell(273, 30, utf8_decode($nombre_completo), 0, 'C');
-
-        $pdf->SetXY(90, 128);
-        $pdf->SetFont('Arial', '', 15);
-        $pdf->Multicell(150, 6, utf8_decode('Por su participación como                      en el'), 0, 'C');
-        $pdf->SetXY(102, 128);
-        $pdf->SetFont('Arial', 'B', 15);
-        $pdf->Multicell(175, 6, utf8_decode('ASISTENTE'), 0, 'C');
-        $pdf->SetXY(162, 128);
-        $pdf->SetFont('Arial', 'B', 15);
-        $pdf->Multicell(175, 6, utf8_decode('CURSO PRECONGRESO'), 0, 'C');
-        $pdf->SetXY(103, 134);
-        $pdf->SetFont('Arial', 'B', 15);
-        $pdf->Multicell(175, 6, utf8_decode('                                XVII Congreso Nacional de Hepatología 13 al 16 de Julio 2022 Mérida, Yucatán'), 0, 'C');
-        $pdf->SetXY(59, 134);
-        $pdf->SetFont('Arial', '', 15);
-        $pdf->Multicell(150, 6, utf8_decode('en el marco del'), 0, 'C');
-
-
-        $pdf->Image('constancias/plantillas/firma_dra.png', 110, 175, 70, 28);
-        $pdf->Image('constancias/plantillas/firma_doc.png', 205, 178, 70, 25);
-        $pdf->Output();
-    }
-
-    public function setTicketVirtual($asistentes){
-        foreach ($asistentes as $key => $value) {
-            if ($value['clave'] == '' || $value['clave'] == NULL || $value['clave'] == 'NULL' || $value['clave'] == ' ') {
-                $clave_10 = $this->generateRandomString(6);
-                AsistentesDao::updateTicketVirtualRA($value['id_registro_acceso'], $clave_10);
-                $this->generaterQr($clave_10);
-            }
+        $pdf->SetXY(96.8, 120);
+        $pdf->SetFont('Arial', 'B', 6);
+        $pdf->Multicell(104, 3, utf8_decode($titulo), 0, 'C');
         }
-    }
 
-    public function setClaveRA($all_ra){
-        foreach ($all_ra as $key => $value) {
-            if ($value['clave'] == '' || $value['clave'] == NULL || $value['clave'] == 'NULL' || $value['clave'] == ' ') {
-                $clave_10 = $this->generateRandomString(10);
-                // var_dump($clave_10);
-                AsistentesDao::updateClaveRA($value['user_id'], $clave_10);
-                // $this->generaterQr($clave_10);
-            }
-            
-        }
+        $pdf->Output('D','constancia.pdf'); 
     }
 
     public function generateRandomString($length = 6){
