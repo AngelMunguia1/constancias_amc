@@ -2,6 +2,7 @@
 namespace App\controllers;
 require_once dirname(__DIR__) . '/../public/librerias/fpdf/fpdf.php';
 require_once dirname(__DIR__) . '/../public/librerias/phpqrcode/qrlib.php';
+defined("APPPATH") OR die("Access denied");
 
 use \Core\View;
 use \Core\MasterDom;
@@ -10,6 +11,8 @@ use \Core\Controller;
 use \App\models\General as GeneralDao;
 
 class Constancias2022 extends Controller{
+
+    private $_contenedor;
 
     function __construct(){
         parent::__construct();
