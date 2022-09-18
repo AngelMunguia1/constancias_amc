@@ -10,7 +10,7 @@ use \App\controllers\Contenedor;
 use \Core\Controller;
 use \App\models\General as GeneralDao;
 
-class Constancias2022 extends Controller{
+class constancias2022 extends Controller{
 
     private $_contenedor;
 
