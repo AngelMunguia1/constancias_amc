@@ -163,11 +163,11 @@
 
 <?php echo $footer; ?>
 
-<script>
+<!-- <script>
     if (window.history.replaceState) { // verificamos disponibilidad
     window.history.replaceState(null, null, window.location.href);
 }
-</script>
+</script> -->
 
 <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js" defer></script>
 <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
