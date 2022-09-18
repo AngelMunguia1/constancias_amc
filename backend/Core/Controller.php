@@ -18,7 +18,7 @@ class Controller{
             }else{
     	    $this->__usuario = $_SESSION['usuario'];
     	    $this->__nombre = $_SESSION['nombre'];
-            header("Location: /constancias2022/");
+            header("Location: /Constanciasamc/");
             exit();
     	}
     }
