@@ -8,19 +8,19 @@ class Controller{
     public $__nombre = '';
 
     public function __construct(){
-    	$this->__usuario = 'amc@org.mx';
-    	$this->__nombre = 'AMC';
+    	$_SESSION['usuario'] = 'amc@org.mx';
+    	$_SESSION['nombre'] = 'AMC';
         session_start();
-    	// if($_SESSION['usuario'] == '' || empty($_SESSION['usuario'])){
-    	//     unset($_SESSION);
-        //         session_unset();
-        //         session_destroy();
-        //         header("Location: /Login/");
-        //         exit();
-        //     }else{
-    	//     $this->__usuario = $_SESSION['usuario'];
-    	//     $this->__nombre = $_SESSION['nombre'];
-    	// }
+    	if($_SESSION['usuario'] == '' || empty($_SESSION['usuario'])){
+    	    unset($_SESSION);
+                session_unset();
+                session_destroy();
+            }else{
+    	    $this->__usuario = $_SESSION['usuario'];
+    	    $this->__nombre = $_SESSION['nombre'];
+            header("Location: /constancias2022/");
+            exit();
+    	}
     }
 
     public static function getPermisosUsuario1($usuario){
