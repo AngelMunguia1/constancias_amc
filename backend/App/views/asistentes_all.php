@@ -73,7 +73,7 @@
                                                 <input class="form-control mr-sm-2" style="font-size: 35px;" autofocus type="search" id="search" name="search" placeholder="Ej. nombre_123@hotmail.com" value="" aria-label="Search">
                                             </div>
                                             <div class="col-12 col-md-12 mt-md-2">
-                                                <button class="btn max-btn-lg bg-gradient-pink-white text-white my-2 my-sm-0" type="submit">↑↑↑ ¡Ingresa tu correo para descargar tu constancia! ↑↑↑</button>
+                                                <button class="btn max-btn-lg bg-gradient-pink-white text-white my-2 my-sm-0" type="submit">↑↑↑ ¡Ingresa su nombre completo para descargar tu constancia! ↑↑↑</button>
                                             </div>
                                         </div>
                                     </form>
