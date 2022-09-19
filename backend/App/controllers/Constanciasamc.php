@@ -42,9 +42,47 @@ class Constanciasamc extends Controller{
             if($datos_user<1){
                 echo '<script>alert("ESTE USUARIO NO TIENE ACCESO A CONSTANCIA")</script>';
             }else{
-                $this->abrirConstancia($search);
+                $total_usuarios = GeneralDao::groupById($search);
+                $array = sizeof($total_usuarios);
+                if($array > 1){
+                    echo '<script>alert("Se ha encontrado más usuarios, intente de nuevo")</script>';
+                    $tabla_usuarios = '';
+                    foreach($total_usuarios as $key => $value){
+                        $tabla_usuarios .= <<<html
+                        <tr>
+                            <td>{$value['nombre_completo']}</td>
+                            <td><button value="{$value['nombre_completo']}" class="add_nombre btn btn-success" id="add_nombre">AGREGAR</button></td>
+                        </tr>
+html;
+                    }
+                    $tabla_completa = '';
+                    $tabla_completa .= <<<html
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <h5 class"text-center">Busque el nombre que le corresponda a usted, agreguelo en el campo de arriba
+                            o presione el botón de AGREGAR del campo que corresponde.</h5>
+                            <table class="table align-items-center mb-0 table table-striped table-bordered" id="example">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre de Autor</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Agregar</th>                               
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {$tabla_usuarios}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+html;                    
+                }else{
+                    $this->abrirConstancia($search);
+                }
             }
         }
+
+        View::set("tabla_usuarios",$tabla_usuarios);
+        View::set("tabla_completa",$tabla_completa);
         View::render("asistentes_all");
     }
 

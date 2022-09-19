@@ -70,7 +70,7 @@
                                     <form class="form-inline my-2 my-lg-0" target="_blank" action="/Constanciasamc/Usuario/" method="POST">
                                         <div class="row">
                                             <div class="col-12 col-md-12">
-                                                <input class="form-control mr-sm-2" style="font-size: 35px;" autofocus type="search" id="search" name="search" placeholder="Ej. nombre_123@hotmail.com" aria-label="Search">
+                                                <input class="form-control mr-sm-2" style="font-size: 35px;" autofocus type="search" id="search" name="search" placeholder="Ej. nombre_123@hotmail.com" value="" aria-label="Search">
                                             </div>
                                             <div class="col-12 col-md-12 mt-md-2">
                                                 <button class="btn max-btn-lg bg-gradient-pink-white text-white my-2 my-sm-0" type="submit">↑↑↑ ¡Ingresa tu correo para descargar tu constancia! ↑↑↑</button>
@@ -82,6 +82,9 @@
                             </div>
                             <hr>
                         </div>
+                        
+                        <?php echo $tabla_completa;?>
+                                    
                     </div>
                 </div>
             </div>
@@ -125,6 +128,10 @@
         //     alert($(this).attr('data-costo'));
         //     alert($(this).val());
         // })
+
+        $(".add_nombre").on("click",function(){
+            $("#search").attr("value",$(this).val());
+        })
 
         $("#form_etiquetas").on("click", function(event) {
             event.preventDefault();

@@ -20,6 +20,20 @@ sql;
     return $mysqli->queryAll($query);
   }
 
+  public static function groupById($search){
+    $mysqli = Database::getInstance();
+    $query =<<<sql
+    SELECT ua.id_autor,CONCAT(ua.nombre," ",ua.apellido_p," ",ua.apellido_m) as nombre_completo
+    FROM asigna_constancia ac
+    INNER JOIN autores ua ON ua.id_autor = ac.id_autor
+    INNER JOIN titulo_trabajo tt ON tt.id_titulo_trabajo = ac.id_titulo_trabajo
+    WHERE CONCAT(ua.nombre," ",ua.apellido_p," ",ua.apellido_m) LIKE '%$search%'
+    GROUP BY ua.id_autor;
+sql;
+
+    return $mysqli->queryAll($query);
+  }
+
   public static function getAllConstanciasRegistradas($data){
     $mysqli = Database::getInstance();
     $query =<<<sql
