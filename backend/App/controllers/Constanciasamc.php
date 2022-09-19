@@ -127,9 +127,9 @@ html;
         $pdf->SetTextColor(0, 0, 0);
         $pdf->Multicell(190, 30, utf8_decode($nombre_completo), 0, 'C');
 
-        $pdf->SetXY(96.8, 120);
-        $pdf->SetFont('Arial', 'B', 6);
-        $pdf->Multicell(104, 3, utf8_decode($titulo), 0, 'C');
+        $pdf->SetXY(82.5, 121);
+        $pdf->SetFont('Times', 'I', 12);
+        $pdf->Multicell(132, 3.5, utf8_decode($titulo), 0, 'C');
         }
 
         $pdf->Output('D','constancia.pdf'); 
