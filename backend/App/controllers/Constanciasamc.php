@@ -45,7 +45,7 @@ class Constanciasamc extends Controller{
                 $total_usuarios = GeneralDao::groupById($search);
                 $array = sizeof($total_usuarios);
                 if($array > 1){
-                    echo '<script>alert("Se ha encontrado más usuarios, intente de nuevo")</script>';
+                    echo '<script>alert("Se han encontrado más usuarios, intente de nuevo")</script>';
                     $tabla_usuarios = '';
                     foreach($total_usuarios as $key => $value){
                         $tabla_usuarios .= <<<html
@@ -59,8 +59,8 @@ html;
                     $tabla_completa .= <<<html
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <h5 class"text-center">Busque el nombre que le corresponda a usted, agreguelo en el campo de arriba
-                            o presione el botón de AGREGAR del campo que corresponde.</h5>
+                            <center><h5 class"text-center">Busque el nombre que le corresponda a usted, agreguelo en el campo de arriba
+                            o presione el botón de AGREGAR del campo que corresponde.</h5></center>
                             <table class="table align-items-center mb-0 table table-striped table-bordered" id="example">
                                 <thead>
                                     <tr>
@@ -75,8 +75,42 @@ html;
                         </div>
                     </div>
 html;                    
-                }else{
+                }else if($array == 1){
                     $this->abrirConstancia($search);
+                }else{
+                    $total_search = GeneralDao::searchAll($search);
+                    echo '<script>alert("No se ha encontrado su nombre, intente de nuevo")</script>';
+                    $tabla_usuarios = '';
+                    foreach($total_search as $key => $value){
+                        $tabla_usuarios .= <<<html
+                        <tr>
+                            <td>{$value['nombre_completo']}</td>
+                            <td><button value="{$value['nombre_completo']}" class="add_nombre btn btn-success" id="add_nombre">AGREGAR</button></td>
+                        </tr>
+html;
+                    }
+                    $tabla_completa = '';
+                    $tabla_completa .= <<<html
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <center><h5 class"text-center">Si su nombre se encuentra en la siguiente tabla, 
+                            agreguelo en el campo de arriba o presione el botón de AGREGAR del campo que 
+                            corresponde.<b class="text-danger"> En caso de no encontrarlo, intente de nuevo, 
+                            por favor</b></h5></center>
+                            <table class="table align-items-center mb-0 table table-striped table-bordered" id="example">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre de Autor</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Agregar</th>                               
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {$tabla_usuarios}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+html;                    
                 }
             }
         }
