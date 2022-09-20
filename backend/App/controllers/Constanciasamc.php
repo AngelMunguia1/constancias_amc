@@ -45,7 +45,7 @@ class Constanciasamc extends Controller{
                 $total_usuarios = GeneralDao::groupById($search);
                 $array = sizeof($total_usuarios);
                 if($array > 1){
-                    echo '<script>alert("Se han encontrado más usuarios, intente de nuevo")</script>';
+                    echo '<script>alert("¡Se han encontrado más usuarios!")</script>';
                     $tabla_usuarios = '';
                     foreach($total_usuarios as $key => $value){
                         $tabla_usuarios .= <<<html
@@ -151,7 +151,7 @@ html;
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
         $pdf->setY(1);
-        $pdf->Image('constancias/plantillas/constancia.jpeg', 0, 0, 298, 210);
+        $pdf->Image('constancias/plantillas/constancia.jpg', 0, 0, 298, 210);
         $pdf->SetFont('Arial', 'B', 16);
         $pdf->SetFont('Arial', 'B', 5);    //Letra Arial, negrita (Bold), tam. 20
         $pdf->SetXY(55, 88);
