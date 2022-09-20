@@ -67,7 +67,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-sm-12">
                                 <div>
-                                    <form class="form-inline my-2 my-lg-0" target="_blank" action="/Constanciasamc/Usuario/" method="POST">
+                                    <form class="form-inline my-2 my-lg-0" action="/Constanciasamc/Usuario/" method="POST">
                                         <div class="row">
                                             <div class="col-12 col-md-12">
                                                 <input class="form-control mr-sm-2" style="font-size: 35px;" autofocus type="search" id="search" name="search" placeholder="Ej. nombre_123@hotmail.com" value="" aria-label="Search">
